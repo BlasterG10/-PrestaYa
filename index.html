@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Presta Ya</title>
+<style>
+:root{--bg:#f5f7fb;--card:#fff;--ink:#172033;--muted:#697386;--line:#e7eaf0;--brand:#2563eb;--brand2:#1d4ed8;--green:#16a34a;--red:#dc2626;--amber:#d97706;--shadow:0 12px 35px #10182812}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}button,input{font:inherit}.hidden{display:none!important}
+.login{min-height:100vh;display:grid;place-items:center;padding:24px;background:linear-gradient(135deg,#eff6ff,#f8fafc)}
+.login-card{width:min(430px,100%);background:#fff;border:1px solid var(--line);border-radius:24px;padding:32px;box-shadow:var(--shadow)}
+.logo{display:flex;align-items:center;gap:12px;font-size:25px;font-weight:800;margin-bottom:8px}.logo-mark{width:44px;height:44px;border-radius:13px;background:var(--brand);color:#fff;display:grid;place-items:center}
+.subtitle{color:var(--muted);margin:0 0 25px}.field{margin:14px 0}.field label{display:block;font-size:13px;font-weight:700;margin-bottom:7px}.field input,.field select{width:100%;padding:12px 13px;border:1px solid #d9dee8;border-radius:11px;background:#fff;outline:none}.field input:focus,.field select:focus{border-color:var(--brand);box-shadow:0 0 0 3px #2563eb18}
+.btn{border:0;border-radius:10px;padding:11px 15px;font-weight:750;cursor:pointer}.btn-primary{background:var(--brand);color:#fff}.btn-primary:hover{background:var(--brand2)}.btn-light{background:#eef2f7;color:var(--ink)}.btn-danger{background:#fee2e2;color:#991b1b}.full{width:100%}.demo{margin-top:15px;padding:12px;background:#f8fafc;border-radius:10px;color:var(--muted);font-size:12px}
+.app{min-height:100vh;display:grid;grid-template-columns:245px 1fr}.sidebar{background:#111827;color:#fff;padding:22px 15px;display:flex;flex-direction:column}.brand-side{display:flex;align-items:center;gap:10px;font-size:20px;font-weight:800;padding:4px 10px 28px}.brand-side .logo-mark{width:38px;height:38px;border-radius:11px}.role{color:#9ca3af;font-size:12px;padding:0 10px 18px}.nav button{width:100%;display:flex;align-items:center;gap:10px;border:0;background:transparent;color:#cbd5e1;text-align:left;padding:12px 11px;border-radius:10px;margin:3px 0;cursor:pointer}.nav button:hover,.nav button.active{background:#1f2937;color:#fff}.logout{margin-top:auto}
+.main{padding:28px;min-width:0}.topbar{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:24px}.eyebrow{color:var(--muted);font-size:13px}.topbar h1{margin:3px 0 0;font-size:28px}.user-pill{background:#fff;border:1px solid var(--line);border-radius:12px;padding:9px 13px;font-weight:700}
+.grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:15px}.stat,.card{background:var(--card);border:1px solid var(--line);border-radius:16px;box-shadow:0 5px 20px #10182808}.stat{padding:18px}.stat .label{color:var(--muted);font-size:13px}.stat .value{font-size:25px;font-weight:800;margin-top:8px}.stat .hint{font-size:12px;color:var(--muted);margin-top:6px}.card{padding:20px}.section{display:none}.section.active{display:block}.section-title{display:flex;align-items:center;justify-content:space-between;margin-bottom:15px}.section-title h2{margin:0;font-size:19px}.muted{color:var(--muted)}
+.table-wrap{overflow:auto}table{width:100%;border-collapse:collapse;min-width:650px}th,td{padding:13px 10px;text-align:left;border-bottom:1px solid var(--line);font-size:13px}th{color:var(--muted);font-size:12px;text-transform:uppercase;letter-spacing:.03em}tr:last-child td{border-bottom:0}.badge{display:inline-flex;padding:5px 9px;border-radius:999px;font-size:11px;font-weight:800}.badge.green{background:#dcfce7;color:#166534}.badge.amber{background:#fef3c7;color:#92400e}.badge.red{background:#fee2e2;color:#991b1b}.badge.blue{background:#dbeafe;color:#1e40af}
+.form-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}.form-grid .field{margin:0}.notice{background:#eff6ff;border:1px solid #bfdbfe;color:#1e40af;padding:13px;border-radius:12px;margin-bottom:16px}.actions{display:flex;gap:8px;flex-wrap:wrap}.empty{text-align:center;padding:35px;color:var(--muted)}
+.loan-card{display:grid;grid-template-columns:1.4fr repeat(3,1fr);gap:12px;align-items:center;padding:17px;border-bottom:1px solid var(--line)}.loan-card:last-child{border-bottom:0}.loan-number{font-weight:800}.loan-number small{display:block;color:var(--muted);font-weight:500;margin-top:4px}.money{font-weight:800}.mobile-nav{display:none}
+@media(max-width:950px){.grid{grid-template-columns:repeat(2,1fr)}.app{grid-template-columns:1fr}.sidebar{display:none}.mobile-nav{display:flex;position:fixed;bottom:0;left:0;right:0;background:#111827;padding:8px;z-index:20;gap:5px}.mobile-nav button{flex:1;border:0;background:transparent;color:#cbd5e1;padding:9px 4px;border-radius:8px;font-size:11px}.mobile-nav button.active{background:#1f2937;color:#fff}.main{padding:20px 16px 85px}}@media(max-width:600px){.grid{grid-template-columns:1fr 1fr;gap:10px}.stat{padding:14px}.stat .value{font-size:21px}.topbar h1{font-size:23px}.form-grid{grid-template-columns:1fr}.loan-card{grid-template-columns:1fr 1fr}.user-pill{display:none}}
+</style>
+</head>
+<body>
+<div id="login" class="login">
+  <div class="login-card">
+    <div class="logo"><span class="logo-mark">₱</span>Presta Ya</div>
+    <p class="subtitle">Tu plataforma de préstamos, simple y segura.</p>
+    <div class="field"><label>Usuario</label><input id="username" placeholder="Escribe tu usuario"></div>
+    <div class="field"><label>Contraseña</label><input id="password" type="password" placeholder="Contraseña"></div>
+    <div class="field"><label>Entrar como</label><select id="role"><option value="client">Cliente</option><option value="admin">Administrador</option></select></div>
+    <button class="btn btn-primary full" onclick="login()">Iniciar sesión</button>
+    <div class="demo">Demo visual: selecciona <b>Administrador</b> o <b>Cliente</b>. La autenticación real se conectará después a Supabase Auth.</div>
+  </div>
+</div>
+
+<div id="app" class="app hidden">
+  <aside class="sidebar">
+    <div class="brand-side"><span class="logo-mark">₱</span>Presta Ya</div>
+    <div id="roleText" class="role"></div>
+    <nav id="adminNav" class="nav hidden">
+      <button class="active" data-section="adminDashboard" onclick="go(this)">▦ Dashboard</button>
+      <button data-section="clients" onclick="go(this)">♙ Clientes</button>
+      <button data-section="loans" onclick="go(this)">▣ Préstamos</button>
+      <button data-section="payments" onclick="go(this)">▤ Pagos</button>
+      <button data-section="approvals" onclick="go(this)">✓ Aprobaciones</button>
+    </nav>
+    <nav id="clientNav" class="nav hidden">
+      <button class="active" data-section="clientDashboard" onclick="go(this)">⌂ Mi resumen</button>
+      <button data-section="myLoans" onclick="go(this)">▣ Mis préstamos</button>
+      <button data-section="myPayments" onclick="go(this)">▤ Mis pagos</button>
+      <button data-section="profile" onclick="go(this)">♙ Mi perfil</button>
+    </nav>
+    <button class="btn btn-light full logout" onclick="logout()">Cerrar sesión</button>
+  </aside>
+
+  <main class="main">
+    <div class="topbar"><div><div class="eyebrow">Presta Ya</div><h1 id="pageTitle">Dashboard</h1></div><div class="user-pill" id="userPill"></div></div>
+
+    <section id="adminDashboard" class="section">
+      <div class="grid">
+        <div class="stat"><div class="label">Clientes activos</div><div class="value" id="aClients">0</div><div class="hint">Clientes registrados</div></div>
+        <div class="stat"><div class="label">Préstamos activos</div><div class="value" id="aLoans">0</div><div class="hint">En cartera</div></div>
+        <div class="stat"><div class="label">Saldo pendiente</div><div class="value" id="aBalance">RD$0</div><div class="hint">Por cobrar</div></div>
+        <div class="stat"><div class="label">Pagos registrados</div><div class="value" id="aPayments">0</div><div class="hint">Historial</div></div>
+      </div>
+      <div class="card" style="margin-top:18px"><div class="section-title"><h2>Actividad reciente</h2><span class="muted">Vista administrativa</span></div><div id="recentActivity"></div></div>
+    </section>
+
+    <section id="clients" class="section">
+      <div class="card"><div class="section-title"><h2>Clientes</h2><button class="btn btn-primary" onclick="toggle('newClient')">+ Nuevo cliente</button></div>
+        <div id="newClient" class="hidden notice"><div class="form-grid"><div class="field"><label>Nombre completo</label><input id="newName"></div><div class="field"><label>Teléfono</label><input id="newPhone"></div></div><div class="actions" style="margin-top:13px"><button class="btn btn-primary" onclick="addClient()">Guardar cliente</button><button class="btn btn-light" onclick="toggle('newClient')">Cancelar</button></div></div>
+        <div class="table-wrap"><table><thead><tr><th>Número de cliente</th><th>Nombre</th><th>Teléfono</th><th>Préstamos</th><th>Estado</th></tr></thead><tbody id="clientRows"></tbody></table></div>
+      </div>
+    </section>
+
+    <section id="loans" class="section"><div class="card"><div class="section-title"><h2>Préstamos</h2><span class="muted">Cartera completa</span></div><div class="table-wrap"><table><thead><tr><th>Número</th><th>Cliente</th><th>Monto</th><th>Total</th><th>Estado</th></tr></thead><tbody id="loanRows"></tbody></table></div></div></section>
+    <section id="payments" class="section"><div class="card"><div class="section-title"><h2>Pagos</h2><span class="muted">Registro administrativo</span></div><div class="table-wrap"><table><thead><tr><th>Recibo</th><th>Préstamo</th><th>Cliente</th><th>Monto</th><th>Fecha</th></tr></thead><tbody id="paymentRows"></tbody></table></div></div></section>
+    <section id="approvals" class="section"><div class="card"><div class="section-title"><h2>Aprobaciones</h2><span class="badge amber">Revisión requerida</span></div><div id="approvalRows"></div></div></section>
+
+    <section id="clientDashboard" class="section"><div class="grid"><div class="stat"><div class="label">Saldo pendiente</div><div class="value" id="cBalance">RD$0</div><div class="hint">Total por pagar</div></div><div class="stat"><div class="label">Préstamos activos</div><div class="value" id="cLoans">0</div><div class="hint">En curso</div></div><div class="stat"><div class="label">Próxima cuota</div><div class="value" id="cNext">RD$0</div><div class="hint" id="cNextDate">Sin cuotas</div></div><div class="stat"><div class="label">Pagado</div><div class="value" id="cPaid">RD$0</div><div class="hint">Historial</div></div></div><div class="card" style="margin-top:18px"><div class="section-title"><h2>Bienvenido a tu cuenta</h2></div><p class="muted">Aquí puedes consultar tus préstamos, cuotas, pagos y estado de cuenta. Solo se muestra la información asociada a tu cuenta.</p></div></section>
+    <section id="myLoans" class="section"><div class="card"><div class="section-title"><h2>Mis préstamos</h2></div><div id="myLoanCards"></div></div></section>
+    <section id="myPayments" class="section"><div class="card"><div class="section-title"><h2>Mis pagos</h2></div><div class="table-wrap"><table><thead><tr><th>Recibo</th><th>Préstamo</th><th>Monto</th><th>Método</th><th>Fecha</th></tr></thead><tbody id="myPaymentRows"></tbody></table></div></div></section>
+    <section id="profile" class="section"><div class="card"><div class="section-title"><h2>Mi perfil</h2></div><div class="form-grid"><div class="field"><label>Nombre</label><input id="profileName" readonly></div><div class="field"><label>Número de cliente</label><input id="profileNumber" readonly></div><div class="field"><label>Teléfono</label><input id="profilePhone" readonly></div></div></div></section>
+  </main>
+</div>
+<div id="mobileNav" class="mobile-nav hidden"></div>
+
+<script>
+const money=n=>'RD$'+Number(n||0).toLocaleString('es-DO',{minimumFractionDigits:2});
+let role='';
+let clients=JSON.parse(localStorage.getItem('py_clients')||'null')||[
+ {id:'c1',number:'PY-0001',name:'Cliente Demo',phone:'(000) 000-0000',status:'Activo'}
+];
+let loans=JSON.parse(localStorage.getItem('py_loans')||'null')||[
+ {id:'l1',number:'PRE-0001',clientId:'c1',amount:5000,total:5750,status:'Aprobado',due:'2026-10-10'}
+];
+let payments=JSON.parse(localStorage.getItem('py_payments')||'null')||[
+ {id:'p1',receipt:'RC-000001',loanId:'l1',amount:500,method:'Efectivo',date:'2026-09-05'}
+];
+function persist(){localStorage.setItem('py_clients',JSON.stringify(clients));localStorage.setItem('py_loans',JSON.stringify(loans));localStorage.setItem('py_payments',JSON.stringify(payments))}
+function clientById(id){return clients.find(c=>c.id===id)||{name:'Cliente desconocido',number:'—'}}
+function loanById(id){return loans.find(l=>l.id===id)||{number:'—'}}
+function login(){
+ role=document.getElementById('role').value;
+ const user=document.getElementById('username').value.trim()|| (role==='admin'?'Administrador':'Cliente Demo');
+ document.getElementById('login').classList.add('hidden');document.getElementById('app').classList.remove('hidden');
+ document.getElementById('userPill').textContent=user;document.getElementById('roleText').textContent=role==='admin'?'Administrador':'Cliente';
+ document.getElementById('adminNav').classList.toggle('hidden',role!=='admin');document.getElementById('clientNav').classList.toggle('hidden',role!=='client');
+ buildMobileNav();render();goTo(role==='admin'?'adminDashboard':'clientDashboard');
+}
+function logout(){location.reload()}
+function toggle(id){document.getElementById(id).classList.toggle('hidden')}
+function go(btn){goTo(btn.dataset.section);document.querySelectorAll('.nav button').forEach(b=>b.classList.remove('active'));btn.classList.add('active');document.querySelectorAll('.mobile-nav button').forEach(b=>b.classList.toggle('active',b.dataset.section===btn.dataset.section))}
+function goTo(id){document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active');const titles={adminDashboard:'Dashboard',clients:'Clientes',loans:'Préstamos',payments:'Pagos',approvals:'Aprobaciones',clientDashboard:'Mi resumen',myLoans:'Mis préstamos',myPayments:'Mis pagos',profile:'Mi perfil'};document.getElementById('pageTitle').textContent=titles[id]||'Presta Ya';render()}
+function buildMobileNav(){const source=role==='admin'?document.getElementById('adminNav'):document.getElementById('clientNav');const m=document.getElementById('mobileNav');m.innerHTML='';[...source.querySelectorAll('button')].forEach(b=>{const x=document.createElement('button');x.dataset.section=b.dataset.section;x.textContent=b.textContent.trim();x.onclick=()=>{goTo(x.dataset.section);m.querySelectorAll('button').forEach(q=>q.classList.remove('active'));x.classList.add('active')};m.appendChild(x)});m.classList.remove('hidden')}
+function render(){if(role==='admin')renderAdmin();else renderClient()}
+function renderAdmin(){
+ aClients.textContent=clients.length;aLoans.textContent=loans.filter(l=>l.status==='Aprobado').length;
+ const balance=loans.filter(l=>l.status==='Aprobado').reduce((s,l)=>s+l.total,0)-payments.reduce((s,p)=>s+p.amount,0);aBalance.textContent=money(Math.max(0,balance));aPayments.textContent=payments.length;
+ clientRows.innerHTML=clients.map(c=>`<tr><td><b>${c.number}</b></td><td>${c.name}</td><td>${c.phone||'—'}</td><td>${loans.filter(l=>l.clientId===c.id).length}</td><td><span class="badge green">${c.status}</span></td></tr>`).join('');
+ loanRows.innerHTML=loans.map(l=>`<tr><td><b>${l.number}</b></td><td>${clientById(l.clientId).name}</td><td>${money(l.amount)}</td><td>${money(l.total)}</td><td>${badge(l.status)}</td></tr>`).join('');
+ paymentRows.innerHTML=payments.map(p=>`<tr><td><b>${p.receipt}</b></td><td>${loanById(p.loanId).number}</td><td>${clientById(loanById(p.loanId).clientId).name}</td><td class="money">${money(p.amount)}</td><td>${p.date}</td></tr>`).join('');
+ const pending=loans.filter(l=>l.status==='Pendiente');approvalRows.innerHTML=pending.length?pending.map(l=>`<div style="padding:15px 0;border-bottom:1px solid var(--line)"><div style="display:flex;justify-content:space-between;gap:15px;align-items:center"><div><b>${l.number}</b><div class="muted">${clientById(l.clientId).name} · ${money(l.amount)}</div></div><div class="actions"><button class="btn btn-primary" onclick="approve('${l.id}',true)">Aprobar</button><button class="btn btn-danger" onclick="approve('${l.id}',false)">Rechazar</button></div></div></div>`).join(''):'<div class="empty">No hay solicitudes pendientes.</div>';
+ recentActivity.innerHTML=payments.slice(-5).reverse().map(p=>`<div style="padding:10px 0;border-bottom:1px solid var(--line)"><b>${p.receipt}</b> — ${money(p.amount)} · ${clientById(loanById(p.loanId).clientId).name}<span class="muted"> · ${p.date}</span></div>`).join('')||'<div class="empty">No hay actividad todavía.</div>';
+}
+function renderClient(){
+ const me=clients[0];const mine=loans.filter(l=>l.clientId===me.id);const myPayments=payments.filter(p=>mine.some(l=>l.id===p.loanId));
+ const total=mine.filter(l=>l.status==='Aprobado').reduce((s,l)=>s+l.total,0), paid=myPayments.reduce((s,p)=>s+p.amount,0);cBalance.textContent=money(Math.max(0,total-paid));cLoans.textContent=mine.filter(l=>l.status==='Aprobado').length;cPaid.textContent=money(paid);cNext.textContent=money(mine[0]?.total||0);cNextDate.textContent=mine[0]?.due||'Sin cuotas';
+ myLoanCards.innerHTML=mine.length?mine.map(l=>`<div class="loan-card"><div><div class="loan-number">${l.number}<small>Préstamo personal</small></div></div><div><span class="muted">Monto</span><div class="money">${money(l.amount)}</div></div><div><span class="muted">Total</span><div class="money">${money(l.total)}</div></div><div>${badge(l.status)}</div></div>`).join(''):'<div class="empty">No tienes préstamos registrados.</div>';
+ myPaymentRows.innerHTML=myPayments.map(p=>`<tr><td><b>${p.receipt}</b></td><td>${loanById(p.loanId).number}</td><td class="money">${money(p.amount)}</td><td>${p.method}</td><td>${p.date}</td></tr>`).join('')||'<tr><td colspan="5" class="empty">No tienes pagos registrados.</td></tr>';
+ profileName.value=me.name;profileNumber.value=me.number;profilePhone.value=me.phone||'—';
+}
+function badge(status){const cls=status==='Aprobado'?'green':status==='Pendiente'?'amber':status==='Rechazado'?'red':'blue';return `<span class="badge ${cls}">${status}</span>`}
+function addClient(){const name=newName.value.trim();if(!name){alert('Escribe el nombre.');return}clients.push({id:'c'+Date.now(),number:'PY-'+String(clients.length+1).padStart(4,'0'),name,phone:newPhone.value,status:'Activo'});persist();newName.value='';newPhone.value='';toggle('newClient');render()}
+function approve(id,ok){const l=loans.find(x=>x.id===id);if(!l)return;l.status=ok?'Aprobado':'Rechazado';persist();render()}
+persist();
+</script>
+</body>
+</html>
