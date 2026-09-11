@@ -107,6 +107,7 @@ Los números de cliente y de préstamo son identificadores de negocio y deben co
 Modelo inicial:
 
 - `customer` — acceso a su propia información.
+- `collector` — operación de cobranza y registro; no aprobar operaciones administrativas.
 - `supervisor` — funciones de supervisión y aprobación según las reglas del proyecto.
 - `admin` — funciones administrativas completas según las reglas definidas.
 
@@ -156,7 +157,9 @@ La interfaz debe ser:
 - clara para clientes y personal administrativo;
 - consistente entre pantallas;
 - preparada para datos reales;
-- desacoplada de la implementación concreta de la base de datos.
+- desacoplada de la implementación concreta de la base de datos;
+- muy visual, pero sin sacrificar legibilidad ni precisión financiera;
+- intuitiva: la acción principal de cada pantalla debe poder identificarse rápidamente.
 
 Las pantallas deben consumir servicios definidos, por ejemplo:
 
@@ -294,6 +297,7 @@ La fuente persistente principal debe ser el repositorio y sus documentos.
 Documentos rectores:
 
 - `docs/BIBLIA_PRESTA_YA.md` — reglas de trabajo y arquitectura.
+- `docs/UI_VISUAL_ENGINEERING.md` — cadena de verificación y mejora visual.
 - `Presta_Ya_Master_Project_Spec.docx` — especificación funcional/arquitectónica.
 - `Presta_Ya_schema_base.sql` — esquema inicial de datos.
 
@@ -301,7 +305,28 @@ Si estos documentos quedan desactualizados, deben actualizarse como parte del tr
 
 ---
 
-## 18. DEFINITION OF DONE
+## 18. MOTOR DE MEJORA VISUAL Y QA
+
+La calidad visual es un requisito permanente del proyecto, no una revisión final.
+
+Antes de considerar terminada una mejora de interfaz:
+
+1. Revisar la versión actual.
+2. Compararla con la referencia visual disponible, sin inventar una referencia si no existe.
+3. Ejecutar `npm run qa:visual` cuando el entorno de pruebas esté disponible.
+4. Verificar como mínimo Cliente, Cobrador, Supervisor y Administrador.
+5. Verificar desktop y móvil.
+6. Revisar jerarquía, legibilidad, espaciado, densidad, navegación, overflow y consistencia.
+7. Aplicar mejoras y volver a verificar.
+8. Conservar la versión que produzca una mejora real sin romper funcionalidad o permisos.
+
+El workflow `.github/workflows/ui-visual-qa.yml` ejecuta esta comprobación en cambios, pull requests y diariamente. El agente de QA detecta y reporta diferencias; no debe modificar automáticamente código financiero sin revisión humana y una política explícita de aprobación.
+
+La automatización puede verificar continuamente; la modificación automática del código requiere una integración de agente con credenciales y controles que no se deben inventar ni habilitar por defecto.
+
+---
+
+## 19. DEFINITION OF DONE
 
 Una tarea de Presta Ya no se considera terminada simplemente porque el código fue escrito.
 
@@ -313,13 +338,15 @@ Antes de marcarla como terminada:
 - permisos y seguridad fueron considerados;
 - los datos están modelados correctamente;
 - los errores previsibles están controlados;
+- la UI es intuitiva y visualmente consistente;
+- la comprobación visual fue ejecutada cuando corresponda;
 - se actualizaron documentos cuando la arquitectura cambió;
 - se dejó claro qué está implementado y qué queda pendiente;
 - si aplica, se verificó el cambio con pruebas o revisión del código.
 
 ---
 
-## 19. PRIORIDAD DE DECISIONES
+## 20. PRIORIDAD DE DECISIONES
 
 En caso de dudas, usar este orden:
 
@@ -334,7 +361,14 @@ Nunca convertir una suposición en un requisito confirmado.
 
 ---
 
-## 20. REGISTRO DE CAMBIOS DE ESTA BIBLIA
+## 21. REGISTRO DE CAMBIOS DE ESTA BIBLIA
+
+### v1.1 — 2026-09-10
+- Incorporado `collector` como rol oficial del modelo inicial.
+- Añadido el motor de mejora visual y QA como proceso permanente.
+- Definida la verificación automática para cuatro roles y dos tamaños de pantalla.
+- Definido el límite de la automatización: detectar/reportar automáticamente; no modificar código financiero sin controles explícitos.
+- Añadida la obligación de mantener la UI intuitiva, visual y consistente.
 
 ### v1.0 — 2026-09-10
 - Creación del documento rector.
@@ -348,4 +382,4 @@ Nunca convertir una suposición en un requisito confirmado.
 
 **Antes de realizar trabajo sobre Presta Ya, leer esta Biblia.**
 
-**No asumir. No inventar. No borrar trabajo existente sin revisión. No sacrificar seguridad por velocidad. Documentar las decisiones importantes. Mantener el proyecto reproducible y preparado para conectar cliente, administración, backend y base de datos.**
+**No asumir. No inventar. No borrar trabajo existente sin revisión. No sacrificar seguridad por velocidad. Documentar las decisiones importantes. Mantener el proyecto reproducible y preparado para conectar cliente, administración, backend y base de datos. La calidad visual se verifica de forma continua y debe mejorar sin romper la funcionalidad.**
