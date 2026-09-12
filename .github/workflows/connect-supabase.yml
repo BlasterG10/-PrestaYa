@@ -14,7 +14,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Inject Supabase bridge into V2 UI
+      - name: Inject Supabase bridge and admin UI into V2
         shell: python
         run: |
           from pathlib import Path
@@ -29,6 +29,10 @@ jobs:
               if marker not in s:
                   raise SystemExit('index.html: </html> not found')
               s = s.replace(marker, new + marker, 1)
+          admin = '<script src="supabase/admin-setup.js"></script>'
+          if admin not in s:
+              marker = '</html>'
+              s = s.replace(marker, admin + marker, 1)
           p.write_text(s, encoding='utf-8')
 
       - name: Commit connection
@@ -38,8 +42,8 @@ jobs:
           git config user.email 'actions@users.noreply.github.com'
           git add index.html
           if git diff --cached --quiet; then
-            echo 'Supabase bridge already connected.'
+            echo 'Supabase connection already current.'
           else
-            git commit -m 'Connect PrestaYa V2 to Supabase'
+            git commit -m 'Connect initial admin and administration UI'
             git push
           fi
