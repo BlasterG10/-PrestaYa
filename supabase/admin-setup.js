@@ -26,12 +26,14 @@
         const email = document.getElementById('email')?.value.trim();
         const password = document.querySelector('#auth input[type="password"]')?.value || '';
         if (!email || !password) return alert('Escribe primero el correo y una contraseña de al menos 8 caracteres.');
-        const full_name = prompt('Nombre completo del administrador:');
+        const username = prompt('Nombre de usuario del administrador:', 'blastertech');
+        if (!username?.trim()) return;
+        const full_name = prompt('Nombre completo del administrador:', 'Blaster Tech');
         if (!full_name?.trim()) return;
         button.disabled = true;
         button.textContent = 'Creando administrador…';
         try {
-          const res = await fetch(bootstrapApi, { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({email,password,full_name:full_name.trim()}) });
+          const res = await fetch(bootstrapApi, { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({email,password,full_name:full_name.trim(),username:username.trim()}) });
           const out = await res.json().catch(()=>({}));
           if (!res.ok) { alert(out.error || 'No fue posible crear el administrador.'); button.disabled=false; button.textContent='Crear primer administrador'; return; }
           alert('Administrador creado correctamente. Ahora inicia sesión con ese correo y contraseña.');
