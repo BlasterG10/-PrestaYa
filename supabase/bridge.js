@@ -4,6 +4,7 @@
   const { createClient } = await import('https://esm.sh/@supabase/supabase-js@2');
   const supabase = createClient('https://qchzgjhbhnkxkmvebkgw.supabase.co','sb_publishable_P25yjBAHPfz4zaFzhTZKag_jknlwGKI',{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}});
   window.prestayaSupabase = supabase;
+  const liveScript=document.createElement('script'); liveScript.src='supabase/live-dashboard.js'; document.head.appendChild(liveScript);
   const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   const roleName=r=>({admin:'Administrador',supervisor:'Supervisor',collector:'Cobrador',client:'Cliente',customer:'Cliente'}[r]||r);
   const statusName=s=>({active:'Activo',approved:'Aprobado',pending:'Pendiente',rejected:'Rechazado',completed:'Completado',defaulted:'En mora',cancelled:'Cancelado'}[s]||s);
@@ -26,9 +27,10 @@
   }
   function errorBox(message){let b=document.getElementById('supabase-error');if(!b){b=document.createElement('div');b.id='supabase-error';b.style.cssText='margin-top:12px;padding:10px;border:1px solid #ffd2d6;background:#fff2f3;color:#a52d36;border-radius:11px;font-size:11px;font-weight:700';document.querySelector('.authcard')?.appendChild(b)}b.textContent=message;}
   async function openApp(user,profile){
-    window.role=profile.role==='customer'?'client':profile.role;window.name=profile.full_name||user.email?.split('@')[0]||'Usuario';
+    window.role=profile.role==='customer'?'client':profile.role;window.name=profile.full_name||user.email?.split('@')[0]||'Usuario';window.prestayaUserId=user.id;
     await syncData();document.getElementById('auth').classList.add('hide');document.getElementById('app').classList.remove('hide');document.getElementById('bottom').classList.remove('hide');
-    document.getElementById('rolebox').innerHTML='<b>'+esc(roleName(window.role))+'</b>Sesión activa · acceso controlado';document.getElementById('user').innerHTML='<span class="av">'+esc(window.name.slice(0,2).toUpperCase())+'</span>'+esc(window.name);buildNav();render();
+    document.getElementById('rolebox').innerHTML='<b>'+esc(roleName(window.role))+'</b>Sesión activa · acceso controlado';document.getElementById('user').innerHTML='<span class="av">'+esc(window.name.slice(0,2).toUpperCase())+'</span>'+esc(window.name);buildNav();
+    if(typeof window.prestayaRefreshDashboard==='function') await window.prestayaRefreshDashboard(); else if(typeof render==='function') render();
   }
   async function realLogin(){
     const email=document.getElementById('email')?.value.trim(),password=document.querySelector('#auth input[type="password"]')?.value||'';
