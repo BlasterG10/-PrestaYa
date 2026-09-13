@@ -13,22 +13,27 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Inject clean auth UI
+      - name: Inject clean auth and dashboard UI
         shell: python
         run: |
           from pathlib import Path
           p=Path('index.html')
           s=p.read_text(encoding='utf-8')
-          tag='<script src="supabase/auth-ui.js"></script>'
-          if tag not in s:
+          auth='<script src="supabase/auth-ui.js"></script>'
+          css='<link rel="stylesheet" href="supabase/dashboard-ui.css">'
+          if auth not in s:
               marker='</head>'
               if marker not in s: raise SystemExit('Missing </head>')
-              s=s.replace(marker, tag+marker, 1)
-              p.write_text(s,encoding='utf-8')
+              s=s.replace(marker, auth+marker, 1)
+          if css not in s:
+              marker='</head>'
+              if marker not in s: raise SystemExit('Missing </head>')
+              s=s.replace(marker, css+marker, 1)
+          p.write_text(s,encoding='utf-8')
       - name: Commit
         shell: bash
         run: |
           git config user.name 'PrestaYa Bot'
           git config user.email 'actions@users.noreply.github.com'
-          git add index.html
-          if git diff --cached --quiet; then echo 'Auth UI already injected.'; else git commit -m 'Fix authentication interface'; git push; fi
+          git add index.html supabase/dashboard-ui.css
+          if git diff --cached --quiet; then echo 'UI already current.'; else git commit -m 'Modernize PrestaYa dashboard'; git push; fi
