@@ -1,0 +1,34 @@
+name: PrestaYa Auth UI
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  inject-auth-ui:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Inject clean auth UI
+        shell: python
+        run: |
+          from pathlib import Path
+          p=Path('index.html')
+          s=p.read_text(encoding='utf-8')
+          tag='<script src="supabase/auth-ui.js"></script>'
+          if tag not in s:
+              marker='</head>'
+              if marker not in s: raise SystemExit('Missing </head>')
+              s=s.replace(marker, tag+marker, 1)
+              p.write_text(s,encoding='utf-8')
+      - name: Commit
+        shell: bash
+        run: |
+          git config user.name 'PrestaYa Bot'
+          git config user.email 'actions@users.noreply.github.com'
+          git add index.html
+          if git diff --cached --quiet; then echo 'Auth UI already injected.'; else git commit -m 'Fix authentication interface'; git push; fi
