@@ -5,8 +5,8 @@
     if (!sb) return;
     clearInterval(waitForSupabase);
 
-    const esc = v => String(v ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
     const apiBase = 'https://qchzgjhbhnkxkmvebkgw.supabase.co/functions/v1/admin-create-user';
+    const bootstrapApi = 'https://qchzgjhbhnkxkmvebkgw.supabase.co/functions/v1/bootstrap-admin';
 
     async function bootstrapAvailable() {
       const { data, error } = await sb.rpc('bootstrap_admin_available');
@@ -30,14 +30,16 @@
         if (!full_name?.trim()) return;
         button.disabled = true;
         button.textContent = 'Creando administrador…';
-        const { data, error } = await sb.auth.signUp({ email, password, options: { data: { full_name: full_name.trim() } } });
-        if (error) { alert(error.message); button.disabled = false; button.textContent = 'Crear primer administrador'; return; }
-        if (data.session?.user) {
+        try {
+          const res = await fetch(bootstrapApi, { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({email,password,full_name:full_name.trim()}) });
+          const out = await res.json().catch(()=>({}));
+          if (!res.ok) { alert(out.error || 'No fue posible crear el administrador.'); button.disabled=false; button.textContent='Crear primer administrador'; return; }
+          alert('Administrador creado correctamente. Ahora inicia sesión con ese correo y contraseña.');
           location.reload();
-        } else {
-          alert('Cuenta creada. Si Supabase requiere confirmación por correo, confirma el correo y luego inicia sesión.');
-          button.disabled = false;
-          button.textContent = 'Crear primer administrador';
+        } catch (err) {
+          alert(err?.message || 'Error de conexión con el servidor.');
+          button.disabled=false;
+          button.textContent='Crear primer administrador';
         }
       };
       card.appendChild(button);
