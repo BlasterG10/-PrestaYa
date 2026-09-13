@@ -1,12 +1,9 @@
 {
-  "name": "presta-ya-ui",
-  "private": true,
-  "scripts": {
-    "qa:visual": "node qa/visual-qa.mjs"
-  },
-  "devDependencies": {
-    "@playwright/test": "^1.55.0",
-    "pixelmatch": "^6.0.0",
-    "pngjs": "^7.0.0"
-  }
+  "name":"prestaya",
+  "version":"1.0.0",
+  "private":true,
+  "type":"module",
+  "scripts":{"dev":"vite","build":"vite build","preview":"vite preview","cap:add:ios":"npx cap add ios","cap:add:android":"npx cap add android","cap:sync":"npx cap sync"},
+  "dependencies":{"@capacitor/core":"^7.4.3","@capacitor/ios":"^7.4.3","@capacitor/android":"^7.4.3"},
+  "devDependencies":{"@capacitor/cli":"^7.4.3","vite":"^7.1.5","@playwright/test":"^1.55.0","pixelmatch":"^6.0.0","pngjs":"^7.0.0"}
 }
